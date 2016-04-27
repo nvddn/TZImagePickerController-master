@@ -283,21 +283,21 @@ static CGSize AssetGridThumbnailSize;
 #pragma mark - UICollectionViewDataSource && Delegate
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
-    if ([_model.name isEqualToString:@"相机胶卷"] || [_model.name isEqualToString:@"Camera Roll"]) {
-        if (_tzImagePickerVc.allowPickingImage) {
-            return _photoArr.count + 1;
-        }
-    }
+//    if ([_model.name isEqualToString:@"相机胶卷"] || [_model.name isEqualToString:@"Camera Roll"]) {
+//        if (_tzImagePickerVc.allowPickingImage) {
+//            return _photoArr.count + 1;
+//        }
+//    }
     return _photoArr.count;
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
-    // the cell lead to take a picture / 去拍照的cell
-    if (indexPath.row >= _photoArr.count) {
-        TZAssetCameraCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"TZAssetCameraCell" forIndexPath:indexPath];
-        cell.imageView.image = [UIImage imageNamedFromMyBundle:@"takePicture.png"];
-        return cell;
-    }
+//    // the cell lead to take a picture / 去拍照的cell
+//    if (indexPath.row >= _photoArr.count) {
+//        TZAssetCameraCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"TZAssetCameraCell" forIndexPath:indexPath];
+//        cell.imageView.image = [UIImage imageNamedFromMyBundle:@"takePicture.png"];
+//        return cell;
+//    }
     // the cell dipaly photo or video / 展示照片或视频的cell
     TZAssetCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"TZAssetCell" forIndexPath:indexPath];
     TZAssetModel *model = _photoArr[indexPath.row];
@@ -335,10 +335,10 @@ static CGSize AssetGridThumbnailSize;
 }
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
-    // take a picture / 去拍照
-    if (indexPath.row >= _photoArr.count) {
-        [self takePicture]; return;
-    }
+//    // take a picture / 去拍照
+//    if (indexPath.row >= _photoArr.count) {
+//        [self takePicture]; return;
+//    }
     // preview phote or video / 预览照片或视频
     TZAssetModel *model = _photoArr[indexPath.row];
     if (model.type == TZAssetModelMediaTypeVideo) {
@@ -368,18 +368,18 @@ static CGSize AssetGridThumbnailSize;
 
 #pragma mark - Private Method
 
-- (void)takePicture {
-    UIImagePickerControllerSourceType sourceType = UIImagePickerControllerSourceTypeCamera;
-    if ([UIImagePickerController isSourceTypeAvailable: UIImagePickerControllerSourceTypeCamera]) {
-        self.imagePickerVc.sourceType = sourceType;
-        if(iOS8Later) {
-            _imagePickerVc.modalPresentationStyle = UIModalPresentationOverCurrentContext;
-        }
-        [self presentViewController:_imagePickerVc animated:YES completion:nil];
-    } else {
-        NSLog(@"模拟器中无法打开照相机,请在真机中使用");
-    }
-}
+//- (void)takePicture {
+//    UIImagePickerControllerSourceType sourceType = UIImagePickerControllerSourceTypeCamera;
+//    if ([UIImagePickerController isSourceTypeAvailable: UIImagePickerControllerSourceTypeCamera]) {
+//        self.imagePickerVc.sourceType = sourceType;
+//        if(iOS8Later) {
+//            _imagePickerVc.modalPresentationStyle = UIModalPresentationOverCurrentContext;
+//        }
+//        [self presentViewController:_imagePickerVc animated:YES completion:nil];
+//    } else {
+//        NSLog(@"模拟器中无法打开照相机,请在真机中使用");
+//    }
+//}
 
 - (void)refreshBottomToolBarStatus {
     TZImagePickerController *imagePickerVc = (TZImagePickerController *)self.navigationController;
@@ -454,48 +454,48 @@ static CGSize AssetGridThumbnailSize;
     }
 }
 
-#pragma mark - UIImagePickerControllerDelegate
-
-- (void)imagePickerController:(UIImagePickerController*)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
-    [picker dismissViewControllerAnimated:YES completion:nil];
-    NSString *type = [info objectForKey:UIImagePickerControllerMediaType];
-    if ([type isEqualToString:@"public.image"]) {
-        TZImagePickerController *imagePickerVc = (TZImagePickerController *)self.navigationController;
-        [imagePickerVc showProgressHUD];
-        UIImage *image = [info objectForKey:UIImagePickerControllerEditedImage];
-        UIImageWriteToSavedPhotosAlbum(image, self, @selector(image:didFinishSavingWithError:contextInfo:), nil);
-    }
-}
-
-- (void)image:(UIImage *)image didFinishSavingWithError:(NSError *)error contextInfo:(void *)contextInfo {
-    if (error) {
-        [_tzImagePickerVc hideProgressHUD];
-        [_tzImagePickerVc showAlertWithTitle:error.localizedDescription];
-    } else {
-        [[TZImageManager manager] getCameraRollAlbum:_tzImagePickerVc.allowPickingVideo allowPickingImage:_tzImagePickerVc.allowPickingImage completion:^(TZAlbumModel *model) {
-            _model = model;
-            [[TZImageManager manager] getAssetsFromFetchResult:_model.result allowPickingVideo:_tzImagePickerVc.allowPickingVideo allowPickingImage:_tzImagePickerVc.allowPickingImage completion:^(NSArray<TZAssetModel *> *models) {
-                [_tzImagePickerVc hideProgressHUD];
-            
-                TZAssetModel *model = [models lastObject];
-                [_photoArr addObject:model];
-                if (_tzImagePickerVc.selectedModels.count < _tzImagePickerVc.maxImagesCount) {
-                    model.isSelected = YES;
-                    [_tzImagePickerVc.selectedModels addObject:model];
-                    [self refreshBottomToolBarStatus];
-                }
-                [_collectionView reloadData];
-                
-                _shouldScrollToBottom = YES;
-                [self scrollCollectionViewToBottom];
-            }];
-        }];
-    }
-}
-
-- (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker {
-    [picker dismissViewControllerAnimated:YES completion:nil];
-}
+//#pragma mark - UIImagePickerControllerDelegate
+//
+//- (void)imagePickerController:(UIImagePickerController*)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
+//    [picker dismissViewControllerAnimated:YES completion:nil];
+//    NSString *type = [info objectForKey:UIImagePickerControllerMediaType];
+//    if ([type isEqualToString:@"public.image"]) {
+//        TZImagePickerController *imagePickerVc = (TZImagePickerController *)self.navigationController;
+//        [imagePickerVc showProgressHUD];
+//        UIImage *image = [info objectForKey:UIImagePickerControllerEditedImage];
+//        UIImageWriteToSavedPhotosAlbum(image, self, @selector(image:didFinishSavingWithError:contextInfo:), nil);
+//    }
+//}
+//
+//- (void)image:(UIImage *)image didFinishSavingWithError:(NSError *)error contextInfo:(void *)contextInfo {
+//    if (error) {
+//        [_tzImagePickerVc hideProgressHUD];
+//        [_tzImagePickerVc showAlertWithTitle:error.localizedDescription];
+//    } else {
+//        [[TZImageManager manager] getCameraRollAlbum:_tzImagePickerVc.allowPickingVideo allowPickingImage:_tzImagePickerVc.allowPickingImage completion:^(TZAlbumModel *model) {
+//            _model = model;
+//            [[TZImageManager manager] getAssetsFromFetchResult:_model.result allowPickingVideo:_tzImagePickerVc.allowPickingVideo allowPickingImage:_tzImagePickerVc.allowPickingImage completion:^(NSArray<TZAssetModel *> *models) {
+//                [_tzImagePickerVc hideProgressHUD];
+//            
+//                TZAssetModel *model = [models lastObject];
+//                [_photoArr addObject:model];
+//                if (_tzImagePickerVc.selectedModels.count < _tzImagePickerVc.maxImagesCount) {
+//                    model.isSelected = YES;
+//                    [_tzImagePickerVc.selectedModels addObject:model];
+//                    [self refreshBottomToolBarStatus];
+//                }
+//                [_collectionView reloadData];
+//                
+//                _shouldScrollToBottom = YES;
+//                [self scrollCollectionViewToBottom];
+//            }];
+//        }];
+//    }
+//}
+//
+//- (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker {
+//    [picker dismissViewControllerAnimated:YES completion:nil];
+//}
 
 #pragma mark - Asset Caching
 
