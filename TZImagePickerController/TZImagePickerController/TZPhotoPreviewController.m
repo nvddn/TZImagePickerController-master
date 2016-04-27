@@ -83,26 +83,26 @@
     _toolBar.alpha = 0.7;
     
     if (_tzImagePickerVc.allowPickingOriginalPhoto) {
-        _originalPhotoButton = [UIButton buttonWithType:UIButtonTypeCustom];
-        _originalPhotoButton.frame = CGRectMake(5, 0, 120, 44);
-        _originalPhotoButton.imageEdgeInsets = UIEdgeInsetsMake(0, -8, 0, 0);
-        _originalPhotoButton.contentEdgeInsets = UIEdgeInsetsMake(0, -50, 0, 0);
-        _originalPhotoButton.backgroundColor = [UIColor clearColor];
-        [_originalPhotoButton addTarget:self action:@selector(originalPhotoButtonClick) forControlEvents:UIControlEventTouchUpInside];
-        _originalPhotoButton.titleLabel.font = [UIFont systemFontOfSize:13];
-        [_originalPhotoButton setTitle:@"原图" forState:UIControlStateNormal];
-        [_originalPhotoButton setTitle:@"原图" forState:UIControlStateSelected];
-        [_originalPhotoButton setTitleColor:[UIColor lightGrayColor] forState:UIControlStateNormal];
-        [_originalPhotoButton setTitleColor:[UIColor whiteColor] forState:UIControlStateSelected];
-        [_originalPhotoButton setImage:[UIImage imageNamedFromMyBundle:@"preview_original_def.png"] forState:UIControlStateNormal];
-        [_originalPhotoButton setImage:[UIImage imageNamedFromMyBundle:@"photo_original_sel.png"] forState:UIControlStateSelected];
-        
-        _originalPhotoLable = [[UILabel alloc] init];
-        _originalPhotoLable.frame = CGRectMake(60, 0, 70, 44);
-        _originalPhotoLable.textAlignment = NSTextAlignmentLeft;
-        _originalPhotoLable.font = [UIFont systemFontOfSize:13];
-        _originalPhotoLable.textColor = [UIColor whiteColor];
-        _originalPhotoLable.backgroundColor = [UIColor clearColor];
+//        _originalPhotoButton = [UIButton buttonWithType:UIButtonTypeCustom];
+//        _originalPhotoButton.frame = CGRectMake(5, 0, 120, 44);
+//        _originalPhotoButton.imageEdgeInsets = UIEdgeInsetsMake(0, -8, 0, 0);
+//        _originalPhotoButton.contentEdgeInsets = UIEdgeInsetsMake(0, -50, 0, 0);
+//        _originalPhotoButton.backgroundColor = [UIColor clearColor];
+//        [_originalPhotoButton addTarget:self action:@selector(originalPhotoButtonClick) forControlEvents:UIControlEventTouchUpInside];
+//        _originalPhotoButton.titleLabel.font = [UIFont systemFontOfSize:13];
+//        [_originalPhotoButton setTitle:@"原图" forState:UIControlStateNormal];
+//        [_originalPhotoButton setTitle:@"原图" forState:UIControlStateSelected];
+//        [_originalPhotoButton setTitleColor:[UIColor lightGrayColor] forState:UIControlStateNormal];
+//        [_originalPhotoButton setTitleColor:[UIColor whiteColor] forState:UIControlStateSelected];
+//        [_originalPhotoButton setImage:[UIImage imageNamedFromMyBundle:@"preview_original_def.png"] forState:UIControlStateNormal];
+//        [_originalPhotoButton setImage:[UIImage imageNamedFromMyBundle:@"photo_original_sel.png"] forState:UIControlStateSelected];
+//        
+//        _originalPhotoLable = [[UILabel alloc] init];
+//        _originalPhotoLable.frame = CGRectMake(60, 0, 70, 44);
+//        _originalPhotoLable.textAlignment = NSTextAlignmentLeft;
+//        _originalPhotoLable.font = [UIFont systemFontOfSize:13];
+//        _originalPhotoLable.textColor = [UIColor whiteColor];
+//        _originalPhotoLable.backgroundColor = [UIColor clearColor];
         if (_isSelectOriginalPhoto) [self showPhotoBytes];
     }
     

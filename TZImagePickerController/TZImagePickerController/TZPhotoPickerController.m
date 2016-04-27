@@ -161,26 +161,26 @@ static CGSize AssetGridThumbnailSize;
     _previewButton.enabled = _tzImagePickerVc.selectedModels.count;
     
     if (_tzImagePickerVc.allowPickingOriginalPhoto) {
-        _originalPhotoButton = [UIButton buttonWithType:UIButtonTypeCustom];
-        _originalPhotoButton.frame = CGRectMake(50, self.view.tz_height - 50, 130, 50);
-        _originalPhotoButton.imageEdgeInsets = UIEdgeInsetsMake(0, -8, 0, 0);
-        _originalPhotoButton.contentEdgeInsets = UIEdgeInsetsMake(0, -45, 0, 0);
-        [_originalPhotoButton addTarget:self action:@selector(originalPhotoButtonClick) forControlEvents:UIControlEventTouchUpInside];
-        _originalPhotoButton.titleLabel.font = [UIFont systemFontOfSize:16];
-        [_originalPhotoButton setTitle:@"原图" forState:UIControlStateNormal];
-        [_originalPhotoButton setTitle:@"原图" forState:UIControlStateSelected];
-        [_originalPhotoButton setTitleColor:[UIColor lightGrayColor] forState:UIControlStateNormal];
-        [_originalPhotoButton setTitleColor:[UIColor blackColor] forState:UIControlStateSelected];
-        [_originalPhotoButton setImage:[UIImage imageNamedFromMyBundle:@"photo_original_def.png"] forState:UIControlStateNormal];
-        [_originalPhotoButton setImage:[UIImage imageNamedFromMyBundle:@"photo_original_sel.png"] forState:UIControlStateSelected];
-        _originalPhotoButton.selected = _isSelectOriginalPhoto;
-        _originalPhotoButton.enabled = _tzImagePickerVc.selectedModels.count > 0;
-        
-        _originalPhotoLable = [[UILabel alloc] init];
-        _originalPhotoLable.frame = CGRectMake(70, 0, 60, 50);
-        _originalPhotoLable.textAlignment = NSTextAlignmentLeft;
-        _originalPhotoLable.font = [UIFont systemFontOfSize:16];
-        _originalPhotoLable.textColor = [UIColor blackColor];
+//        _originalPhotoButton = [UIButton buttonWithType:UIButtonTypeCustom];
+//        _originalPhotoButton.frame = CGRectMake(50, self.view.tz_height - 50, 130, 50);
+//        _originalPhotoButton.imageEdgeInsets = UIEdgeInsetsMake(0, -8, 0, 0);
+//        _originalPhotoButton.contentEdgeInsets = UIEdgeInsetsMake(0, -45, 0, 0);
+//        [_originalPhotoButton addTarget:self action:@selector(originalPhotoButtonClick) forControlEvents:UIControlEventTouchUpInside];
+//        _originalPhotoButton.titleLabel.font = [UIFont systemFontOfSize:16];
+//        [_originalPhotoButton setTitle:@"原图" forState:UIControlStateNormal];
+//        [_originalPhotoButton setTitle:@"原图" forState:UIControlStateSelected];
+//        [_originalPhotoButton setTitleColor:[UIColor lightGrayColor] forState:UIControlStateNormal];
+//        [_originalPhotoButton setTitleColor:[UIColor blackColor] forState:UIControlStateSelected];
+//        [_originalPhotoButton setImage:[UIImage imageNamedFromMyBundle:@"photo_original_def.png"] forState:UIControlStateNormal];
+//        [_originalPhotoButton setImage:[UIImage imageNamedFromMyBundle:@"photo_original_sel.png"] forState:UIControlStateSelected];
+//        _originalPhotoButton.selected = _isSelectOriginalPhoto;
+//        _originalPhotoButton.enabled = _tzImagePickerVc.selectedModels.count > 0;
+//        
+//        _originalPhotoLable = [[UILabel alloc] init];
+//        _originalPhotoLable.frame = CGRectMake(70, 0, 60, 50);
+//        _originalPhotoLable.textAlignment = NSTextAlignmentLeft;
+//        _originalPhotoLable.font = [UIFont systemFontOfSize:16];
+//        _originalPhotoLable.textColor = [UIColor blackColor];
         if (_isSelectOriginalPhoto) [self getSelectedPhotoBytes];
     }
     
