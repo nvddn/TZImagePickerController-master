@@ -123,7 +123,7 @@ static CGSize AssetGridThumbnailSize;
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    [self scrollCollectionViewToBottom];
+//    [self scrollCollectionViewToBottom];
     // Determine the size of the thumbnails to request from the PHCachingImageManager
     CGFloat scale = [UIScreen mainScreen].scale;
     CGSize cellSize = ((UICollectionViewFlowLayout *)_collectionView.collectionViewLayout).itemSize;
@@ -428,18 +428,18 @@ static CGSize AssetGridThumbnailSize;
     return newImage;
 }
 
-- (void)scrollCollectionViewToBottom {
-    if (_shouldScrollToBottom && _photoArr.count > 0) {
-        NSInteger item = _photoArr.count - 1;
-        if ([_model.name isEqualToString:@"相机胶卷"] || [_model.name isEqualToString:@"Camera Roll"]) {
-            if (_tzImagePickerVc.allowPickingImage) {
-                item += 1;
-            }
-        }
-        [_collectionView scrollToItemAtIndexPath:[NSIndexPath indexPathForItem:item inSection:0] atScrollPosition:UICollectionViewScrollPositionBottom animated:NO];
-        _shouldScrollToBottom = NO;
-    }
-}
+//- (void)scrollCollectionViewToBottom {
+//    if (_shouldScrollToBottom && _photoArr.count > 0) {
+//        NSInteger item = _photoArr.count - 1;
+//        if ([_model.name isEqualToString:@"相机胶卷"] || [_model.name isEqualToString:@"Camera Roll"]) {
+//            if (_tzImagePickerVc.allowPickingImage) {
+//                item += 1;
+//            }
+//        }
+//        [_collectionView scrollToItemAtIndexPath:[NSIndexPath indexPathForItem:item inSection:0] atScrollPosition:UICollectionViewScrollPositionBottom animated:NO];
+//        _shouldScrollToBottom = NO;
+//    }
+//}
 
 - (void)checkSelectedModels {
     for (TZAssetModel *model in _photoArr) {
