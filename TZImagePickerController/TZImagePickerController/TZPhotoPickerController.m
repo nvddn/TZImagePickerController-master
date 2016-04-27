@@ -300,7 +300,7 @@ static CGSize AssetGridThumbnailSize;
 //    }
     // the cell dipaly photo or video / 展示照片或视频的cell
     TZAssetCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"TZAssetCell" forIndexPath:indexPath];
-    TZAssetModel *model = _photoArr[_photoArr.count - 1 - indexPath.row];
+    TZAssetModel *model = _photoArr[indexPath.row];
     cell.model = model;
     
     __weak typeof(cell) weakCell = cell;
@@ -340,7 +340,7 @@ static CGSize AssetGridThumbnailSize;
 //        [self takePicture]; return;
 //    }
     // preview phote or video / 预览照片或视频
-    TZAssetModel *model = _photoArr[_photoArr.count - 1 - indexPath.row];
+    TZAssetModel *model = _photoArr[indexPath.row];
     if (model.type == TZAssetModelMediaTypeVideo) {
         if (_tzImagePickerVc.selectedModels.count > 0) {
             TZImagePickerController *imagePickerVc = (TZImagePickerController *)self.navigationController;
@@ -353,7 +353,7 @@ static CGSize AssetGridThumbnailSize;
     } else {
         TZPhotoPreviewController *photoPreviewVc = [[TZPhotoPreviewController alloc] init];
         photoPreviewVc.photoArr = _photoArr;
-        photoPreviewVc.currentIndex = _photoArr.count - 1 - indexPath.row;
+        photoPreviewVc.currentIndex = indexPath.row;
         [self pushPhotoPrevireViewController:photoPreviewVc];
     }
 }
@@ -586,7 +586,7 @@ static CGSize AssetGridThumbnailSize;
     
     NSMutableArray *assets = [NSMutableArray arrayWithCapacity:indexPaths.count];
     for (NSIndexPath *indexPath in indexPaths) {
-        TZAssetModel *model = _photoArr[_photoArr.count - 1 - indexPath.row];
+        TZAssetModel *model = _photoArr[indexPath.item];
         [assets addObject:model.asset];
     }
     
