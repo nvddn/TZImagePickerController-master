@@ -21,8 +21,8 @@
     
     UIButton *_previewButton;
     UIButton *_okButton;
-    UIImageView *_numberImageView;
-    UILabel *_numberLable;
+//    UIImageView *_numberImageView;
+//    UILabel *_numberLable;
     UIButton *_originalPhotoButton;
     UILabel *_originalPhotoLable;
     
@@ -194,19 +194,19 @@ static CGSize AssetGridThumbnailSize;
     [_okButton setTitleColor:_tzImagePickerVc.oKButtonTitleColorDisabled forState:UIControlStateDisabled];
     _okButton.enabled = _tzImagePickerVc.selectedModels.count;
     
-    _numberImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamedFromMyBundle:@"photo_number_icon.png"]];
-    _numberImageView.frame = CGRectMake(self.view.tz_width - 56 - 24, 12, 26, 26);
-    _numberImageView.hidden = _tzImagePickerVc.selectedModels.count <= 0;
-    _numberImageView.backgroundColor = [UIColor clearColor];
-    
-    _numberLable = [[UILabel alloc] init];
-    _numberLable.frame = _numberImageView.frame;
-    _numberLable.font = [UIFont systemFontOfSize:16];
-    _numberLable.textColor = [UIColor whiteColor];
-    _numberLable.textAlignment = NSTextAlignmentCenter;
-    _numberLable.text = [NSString stringWithFormat:@"%zd",_tzImagePickerVc.selectedModels.count];
-    _numberLable.hidden = _tzImagePickerVc.selectedModels.count <= 0;
-    _numberLable.backgroundColor = [UIColor clearColor];
+//    _numberImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamedFromMyBundle:@"photo_number_icon.png"]];
+//    _numberImageView.frame = CGRectMake(self.view.tz_width - 56 - 24, 12, 26, 26);
+//    _numberImageView.hidden = _tzImagePickerVc.selectedModels.count <= 0;
+//    _numberImageView.backgroundColor = [UIColor clearColor];
+//    
+//    _numberLable = [[UILabel alloc] init];
+//    _numberLable.frame = _numberImageView.frame;
+//    _numberLable.font = [UIFont systemFontOfSize:16];
+//    _numberLable.textColor = [UIColor whiteColor];
+//    _numberLable.textAlignment = NSTextAlignmentCenter;
+//    _numberLable.text = [NSString stringWithFormat:@"%zd",_tzImagePickerVc.selectedModels.count];
+//    _numberLable.hidden = _tzImagePickerVc.selectedModels.count <= 0;
+//    _numberLable.backgroundColor = [UIColor clearColor];
     
     UIView *divide = [[UIView alloc] init];
     CGFloat rgb2 = 222 / 255.0;
@@ -216,8 +216,8 @@ static CGSize AssetGridThumbnailSize;
     [bottomToolBar addSubview:divide];
     [bottomToolBar addSubview:_previewButton];
     [bottomToolBar addSubview:_okButton];
-    [bottomToolBar addSubview:_numberImageView];
-    [bottomToolBar addSubview:_numberLable];
+//    [bottomToolBar addSubview:_numberImageView];
+//    [bottomToolBar addSubview:_numberLable];
     [self.view addSubview:bottomToolBar];
     [self.view addSubview:_originalPhotoButton];
     [_originalPhotoButton addSubview:_originalPhotoLable];
@@ -313,7 +313,7 @@ static CGSize AssetGridThumbnailSize;
     
     __weak typeof(cell) weakCell = cell;
     __weak typeof(self) weakSelf = self;
-    __weak typeof(_numberImageView.layer) weakLayer = _numberImageView.layer;
+//    __weak typeof(_numberImageView.layer) weakLayer = _numberImageView.layer;
     cell.didSelectPhotoBlock = ^(BOOL isSelected) {
         // 1. cancel select / 取消选择
         if (isSelected) {
@@ -337,7 +337,7 @@ static CGSize AssetGridThumbnailSize;
                 [weakSelf.tzImagePickerVc showAlertWithTitle:[NSString stringWithFormat:@"你最多只能选择%zd张照片",weakSelf.tzImagePickerVc.maxImagesCount]];
             }
         }
-         [UIView showOscillatoryAnimationWithLayer:weakLayer type:TZOscillatoryAnimationToSmaller];
+//         [UIView showOscillatoryAnimationWithLayer:weakLayer type:TZOscillatoryAnimationToSmaller];
     };
     return cell;
 }
@@ -395,9 +395,12 @@ static CGSize AssetGridThumbnailSize;
     _previewButton.enabled = imagePickerVc.selectedModels.count > 0;
     _okButton.enabled = imagePickerVc.selectedModels.count > 0;
     
-    _numberImageView.hidden = imagePickerVc.selectedModels.count <= 0;
-    _numberLable.hidden = imagePickerVc.selectedModels.count <= 0;
-    _numberLable.text = [NSString stringWithFormat:@"%zd",imagePickerVc.selectedModels.count];
+//    _numberImageView.hidden = imagePickerVc.selectedModels.count <= 0;
+//    _numberLable.hidden = imagePickerVc.selectedModels.count <= 0;
+//    _numberLable.text = [NSString stringWithFormat:@"%zd",imagePickerVc.selectedModels.count];
+    NSString *text = [NSString stringWithFormat:@"确定%zd",imagePickerVc.selectedModels.count];
+    [_okButton setTitle:text forState:UIControlStateNormal];
+    [_okButton setTitle:text forState:UIControlStateDisabled];
     
     _originalPhotoButton.enabled = imagePickerVc.selectedModels.count > 0;
     _originalPhotoButton.selected = (_isSelectOriginalPhoto && _originalPhotoButton.enabled);
