@@ -71,14 +71,22 @@ static CGSize AssetGridThumbnailSize;
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"取消" style:UIBarButtonItemStylePlain target:self action:@selector(cancel)];
     if ([_model.name isEqualToString:@"相机胶卷"] || [_model.name isEqualToString:@"Camera Roll"]) {
         [[TZImageManager manager] getAssetsFromFetchResult:_model.result allowPickingVideo:_tzImagePickerVc.allowPickingVideo allowPickingImage:_tzImagePickerVc.allowPickingImage completion:^(NSArray<TZAssetModel *> *models) {
-            _photoArr = [NSMutableArray arrayWithArray:models];
+            _photoArr = [self invertedOrderArrayWithArray:models];
             [self initSubviews];
         }];
     } else {
-        _photoArr = [NSMutableArray arrayWithArray:_model.models];
+        _photoArr = [self invertedOrderArrayWithArray:_model.models];
         [self initSubviews];
     }
     // [self resetCachedAssets];
+}
+
+- (NSMutableArray *)invertedOrderArrayWithArray:(NSArray *)array {
+    NSMutableArray *mutableArray = [NSMutableArray array];
+    for (id object in array) {
+        [mutableArray insertObject:object atIndex:0];
+    }
+    return mutableArray;
 }
 
 - (void)initSubviews {
