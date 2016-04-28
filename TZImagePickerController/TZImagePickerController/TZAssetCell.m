@@ -39,7 +39,7 @@
         self.imageView.image = photo;
     }];
     self.selectPhotoButton.selected = model.isSelected;
-    self.selectImageView.image = self.selectPhotoButton.isSelected ? [UIImage imageNamedFromMyBundle:@"photo_sel_photoPickerVc.png"] : [UIImage imageNamedFromMyBundle:@"photo_def_photoPickerVc.png"];
+    self.selectImageView.image = self.selectPhotoButton.isSelected ? [UIImage imageNamedFromMyBundle:@"album_radiobt_selected.png"] : [UIImage imageNamedFromMyBundle:@"album_radiobt_unselected.png"];
     self.type = TZAssetCellTypePhoto;
     if (model.type == TZAssetModelMediaTypeLivePhoto)      self.type = TZAssetCellTypeLivePhoto;
     else if (model.type == TZAssetModelMediaTypeAudio)     self.type = TZAssetCellTypeAudio;
@@ -66,7 +66,7 @@
     if (self.didSelectPhotoBlock) {
         self.didSelectPhotoBlock(sender.isSelected);
     }
-    self.selectImageView.image = sender.isSelected ? [UIImage imageNamedFromMyBundle:@"photo_sel_photoPickerVc.png"] : [UIImage imageNamedFromMyBundle:@"photo_def_photoPickerVc.png"];
+    self.selectImageView.image = sender.isSelected ? [UIImage imageNamedFromMyBundle:@"album_radiobt_selected.png"] : [UIImage imageNamedFromMyBundle:@"album_radiobt_unselected.png"];
     if (sender.isSelected) {
         [UIView showOscillatoryAnimationWithLayer:_selectImageView.layer type:TZOscillatoryAnimationToBigger];
     }

@@ -146,18 +146,20 @@ static CGSize AssetGridThumbnailSize;
 }
 
 - (void)configBottomToolBar {
-    UIView *bottomToolBar = [[UIView alloc] initWithFrame:CGRectMake(0, self.view.tz_height - 50, self.view.tz_width, 50)];
+    UIView *bottomToolBar = [[UIView alloc] initWithFrame:CGRectMake(0, self.view.tz_height - 48, self.view.tz_width, 48)];
     CGFloat rgb = 253 / 255.0;
     bottomToolBar.backgroundColor = [UIColor colorWithRed:rgb green:rgb blue:rgb alpha:1.0];
     
     _previewButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    _previewButton.frame = CGRectMake(10, 3, 44, 44);
+    _previewButton.frame = CGRectMake(10, 8, 45, 32);
     [_previewButton addTarget:self action:@selector(previewButtonClick) forControlEvents:UIControlEventTouchUpInside];
     _previewButton.titleLabel.font = [UIFont systemFontOfSize:16];
     [_previewButton setTitle:@"预览" forState:UIControlStateNormal];
     [_previewButton setTitle:@"预览" forState:UIControlStateDisabled];
-    [_previewButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    [_previewButton setTitleColor:[UIColor darkGrayColor] forState:UIControlStateNormal];
     [_previewButton setTitleColor:[UIColor lightGrayColor] forState:UIControlStateDisabled];
+    [_previewButton setBackgroundImage:[self resizeImage:@"common_bt_gray_normal.png"] forState:UIControlStateNormal];
+    [_previewButton setBackgroundImage:[self resizeImage:@"common_bt_gray_pressed.png"] forState:UIControlStateHighlighted];
     _previewButton.enabled = _tzImagePickerVc.selectedModels.count;
     
     if (_tzImagePickerVc.allowPickingOriginalPhoto) {
@@ -185,13 +187,16 @@ static CGSize AssetGridThumbnailSize;
     }
     
     _okButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    _okButton.frame = CGRectMake(self.view.tz_width - 44 - 12, 3, 44, 44);
+    _okButton.frame = CGRectMake(self.view.tz_width - 76 - 10, 8, 76, 32);
     _okButton.titleLabel.font = [UIFont systemFontOfSize:16];
     [_okButton addTarget:self action:@selector(okButtonClick) forControlEvents:UIControlEventTouchUpInside];
-    [_okButton setTitle:@"确定" forState:UIControlStateNormal];
-    [_okButton setTitle:@"确定" forState:UIControlStateDisabled];
+    [_okButton setTitle:[NSString stringWithFormat:@"确定(0/%d)", _tzImagePickerVc.maxImagesCount] forState:UIControlStateNormal];
+    [_okButton setTitle:[NSString stringWithFormat:@"确定(0/%d)", _tzImagePickerVc.maxImagesCount] forState:UIControlStateDisabled];
     [_okButton setTitleColor:_tzImagePickerVc.oKButtonTitleColorNormal forState:UIControlStateNormal];
     [_okButton setTitleColor:_tzImagePickerVc.oKButtonTitleColorDisabled forState:UIControlStateDisabled];
+    [_okButton setTitleColor:[UIColor whiteColor] forState:UIControlStateHighlighted];
+    [_okButton setBackgroundImage:[self resizeImage:@"common_bt_green_normal.png"] forState:UIControlStateNormal];
+    [_okButton setBackgroundImage:[self resizeImage:@"common_bt_green_pressed.png"] forState:UIControlStateHighlighted];
     _okButton.enabled = _tzImagePickerVc.selectedModels.count;
     
 //    _numberImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamedFromMyBundle:@"photo_number_icon.png"]];
@@ -376,6 +381,12 @@ static CGSize AssetGridThumbnailSize;
 
 #pragma mark - Private Method
 
+- (UIImage *)resizeImage:(NSString *)inputImgStr {
+    UIImage *inputImg = [UIImage imageNamedFromMyBundle:inputImgStr];
+    inputImg = [inputImg resizableImageWithCapInsets:UIEdgeInsetsMake(4, 4, 4, 4) resizingMode:UIImageResizingModeStretch];
+    return inputImg;
+}
+
 //- (void)takePicture {
 //    UIImagePickerControllerSourceType sourceType = UIImagePickerControllerSourceTypeCamera;
 //    if ([UIImagePickerController isSourceTypeAvailable: UIImagePickerControllerSourceTypeCamera]) {
@@ -398,7 +409,7 @@ static CGSize AssetGridThumbnailSize;
 //    _numberImageView.hidden = imagePickerVc.selectedModels.count <= 0;
 //    _numberLable.hidden = imagePickerVc.selectedModels.count <= 0;
 //    _numberLable.text = [NSString stringWithFormat:@"%zd",imagePickerVc.selectedModels.count];
-    NSString *text = [NSString stringWithFormat:@"确定%zd",imagePickerVc.selectedModels.count];
+    NSString *text = [NSString stringWithFormat:@"确定(%zd/%d)",imagePickerVc.selectedModels.count, _tzImagePickerVc.maxImagesCount];
     [_okButton setTitle:text forState:UIControlStateNormal];
     [_okButton setTitle:text forState:UIControlStateDisabled];
     

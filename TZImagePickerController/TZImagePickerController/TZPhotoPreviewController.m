@@ -67,8 +67,8 @@
     [_backButton addTarget:self action:@selector(back) forControlEvents:UIControlEventTouchUpInside];
     
     _selectButton = [[UIButton alloc] initWithFrame:CGRectMake(self.view.tz_width - 54, 10, 42, 42)];
-    [_selectButton setImage:[UIImage imageNamedFromMyBundle:@"photo_def_photoPickerVc.png"] forState:UIControlStateNormal];
-    [_selectButton setImage:[UIImage imageNamedFromMyBundle:@"photo_sel_photoPickerVc.png"] forState:UIControlStateSelected];
+    [_selectButton setImage:[UIImage imageNamedFromMyBundle:@"album_radiobt_unselected.png"] forState:UIControlStateNormal];
+    [_selectButton setImage:[UIImage imageNamedFromMyBundle:@"album_radiobt_selected.png"] forState:UIControlStateSelected];
     [_selectButton addTarget:self action:@selector(select:) forControlEvents:UIControlEventTouchUpInside];
     
     [_naviBar addSubview:_selectButton];
