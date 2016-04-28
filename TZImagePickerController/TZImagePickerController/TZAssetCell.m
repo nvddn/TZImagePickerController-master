@@ -149,6 +149,7 @@
 @property (weak, nonatomic) UIImageView *posterImageView;
 @property (weak, nonatomic) UILabel *titleLable;
 @property (weak, nonatomic) UIImageView *arrowImageView;
+@property (weak, nonatomic) UIView *lineView;
 @end
 
 @implementation TZAlbumCell
@@ -166,6 +167,7 @@
     NSAttributedString *countString = [[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@"  (%zd)",model.count] attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:16],NSForegroundColorAttributeName:[UIColor lightGrayColor]}];
     [nameString appendAttributedString:countString];
     self.titleLable.attributedText = nameString;
+    self.lineView.backgroundColor = [UIColor lightGrayColor];
     [[TZImageManager manager] getPostImageWithAlbumModel:model completion:^(UIImage *postImage) {
         self.posterImageView.image = postImage;
     }];
@@ -194,7 +196,7 @@
         UIImageView *posterImageView = [[UIImageView alloc] init];
         posterImageView.contentMode = UIViewContentModeScaleAspectFill;
         posterImageView.clipsToBounds = YES;
-        posterImageView.frame = CGRectMake(0, 0, 70, 70);
+        posterImageView.frame = CGRectMake(15, 4, 56, 56);
         [self.contentView addSubview:posterImageView];
         _posterImageView = posterImageView;
     }
@@ -212,6 +214,17 @@
         _titleLable = titleLable;
     }
     return _titleLable;
+}
+
+- (UIView *)lineView {
+    if (_lineView == nil) {
+        UIView *line = [[UIView alloc]init];
+        CGFloat lineWidth = 79;
+        line.frame = CGRectMake(lineWidth, 63, self.tz_width - lineWidth, 1);
+        [self.contentView addSubview:line];
+        _lineView = line;
+    }
+    return _lineView;
 }
 
 - (UIImageView *)arrowImageView {
