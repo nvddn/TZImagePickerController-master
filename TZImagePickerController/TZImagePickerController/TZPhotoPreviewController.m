@@ -38,7 +38,7 @@
     __weak typeof(self) weakSelf = self;
     _tzImagePickerVc = (TZImagePickerController *)weakSelf.navigationController;
     [self configCollectionView];
-    [self configCustomNaviBar];
+//    [self configCustomNaviBar];
     [self configBottomToolBar];
 }
 
@@ -47,7 +47,7 @@
     [self.navigationController setNavigationBarHidden:YES];
     if (iOS7Later) [UIApplication sharedApplication].statusBarHidden = YES;
     if (_currentIndex) [_collectionView setContentOffset:CGPointMake((self.view.tz_width) * _currentIndex, 0) animated:NO];
-    [self refreshNaviBarAndBottomBarState];
+//    [self refreshNaviBarAndBottomBarState];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
@@ -66,21 +66,21 @@
     [_backButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [_backButton addTarget:self action:@selector(back) forControlEvents:UIControlEventTouchUpInside];
     
-    _selectButton = [[UIButton alloc] initWithFrame:CGRectMake(self.view.tz_width - 54, 10, 42, 42)];
-    [_selectButton setImage:[UIImage imageNamedFromMyBundle:@"album_radiobt_unselected.png"] forState:UIControlStateNormal];
-    [_selectButton setImage:[UIImage imageNamedFromMyBundle:@"album_radiobt_selected.png"] forState:UIControlStateSelected];
-    [_selectButton addTarget:self action:@selector(select:) forControlEvents:UIControlEventTouchUpInside];
-    
-    [_naviBar addSubview:_selectButton];
+//    _selectButton = [[UIButton alloc] initWithFrame:CGRectMake(self.view.tz_width - 54, 10, 42, 42)];
+//    [_selectButton setImage:[UIImage imageNamedFromMyBundle:@"album_radiobt_unselected.png"] forState:UIControlStateNormal];
+//    [_selectButton setImage:[UIImage imageNamedFromMyBundle:@"album_radiobt_selected.png"] forState:UIControlStateSelected];
+//    [_selectButton addTarget:self action:@selector(select:) forControlEvents:UIControlEventTouchUpInside];
+//    
+//    [_naviBar addSubview:_selectButton];
     [_naviBar addSubview:_backButton];
     [self.view addSubview:_naviBar];
 }
 
 - (void)configBottomToolBar {
     _toolBar = [[UIView alloc] initWithFrame:CGRectMake(0, self.view.tz_height - 44, self.view.tz_width, 44)];
-    CGFloat rgb = 34 / 255.0;
-    _toolBar.backgroundColor = [UIColor colorWithRed:rgb green:rgb blue:rgb alpha:1.0];
-    _toolBar.alpha = 0.7;
+    CGFloat rgb = 0 / 255.0;
+    _toolBar.backgroundColor = [UIColor colorWithRed:rgb green:rgb blue:rgb alpha:0.0];
+//    _toolBar.alpha = 0.7;
     
     if (_tzImagePickerVc.allowPickingOriginalPhoto) {
 //        _originalPhotoButton = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -106,20 +106,21 @@
         if (_isSelectOriginalPhoto) [self showPhotoBytes];
     }
     
-    _okButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    _okButton.frame = CGRectMake(self.view.tz_width - 44 - 12, 0, 44, 44);
-    _okButton.titleLabel.font = [UIFont systemFontOfSize:16];
-    [_okButton addTarget:self action:@selector(okButtonClick) forControlEvents:UIControlEventTouchUpInside];
-    [_okButton setTitle:@"确定" forState:UIControlStateNormal];
-    [_okButton setTitleColor:_tzImagePickerVc.oKButtonTitleColorNormal forState:UIControlStateNormal];
-    
-    _numberImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamedFromMyBundle:@"photo_number_icon.png"]];
-    _numberImageView.backgroundColor = [UIColor clearColor];
-    _numberImageView.frame = CGRectMake(self.view.tz_width - 56 - 24, 9, 26, 26);
-    _numberImageView.hidden = _tzImagePickerVc.selectedModels.count <= 0;
-    
+//    _okButton = [UIButton buttonWithType:UIButtonTypeCustom];
+//    _okButton.frame = CGRectMake(self.view.tz_width - 44 - 12, 0, 44, 44);
+//    _okButton.titleLabel.font = [UIFont systemFontOfSize:16];
+//    [_okButton addTarget:self action:@selector(okButtonClick) forControlEvents:UIControlEventTouchUpInside];
+//    [_okButton setTitle:@"确定" forState:UIControlStateNormal];
+//    [_okButton setTitleColor:_tzImagePickerVc.oKButtonTitleColorNormal forState:UIControlStateNormal];
+//    
+//    _numberImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamedFromMyBundle:@"photo_number_icon.png"]];
+//    _numberImageView.backgroundColor = [UIColor clearColor];
+//    _numberImageView.frame = CGRectMake(self.view.tz_width - 56 - 24, 9, 26, 26);
+//    _numberImageView.hidden = _tzImagePickerVc.selectedModels.count <= 0;
+
     _numberLable = [[UILabel alloc] init];
-    _numberLable.frame = _numberImageView.frame;
+    _numberLable.bounds = CGRectMake(0, 0, 44, 26);
+    _numberLable.center = CGPointMake(_toolBar.tz_width / 2, _toolBar.tz_height / 2);
     _numberLable.font = [UIFont systemFontOfSize:16];
     _numberLable.textColor = [UIColor whiteColor];
     _numberLable.textAlignment = NSTextAlignmentCenter;
@@ -130,7 +131,7 @@
     [_originalPhotoButton addSubview:_originalPhotoLable];
     [_toolBar addSubview:_okButton];
     [_toolBar addSubview:_originalPhotoButton];
-    [_toolBar addSubview:_numberImageView];
+//    [_toolBar addSubview:_numberImageView];
     [_toolBar addSubview:_numberLable];
     [self.view addSubview:_toolBar];
 }
@@ -156,35 +157,35 @@
 
 #pragma mark - Click Event
 
-- (void)select:(UIButton *)selectButton {
-    TZAssetModel *model = _photoArr[_currentIndex];
-    if (!selectButton.isSelected) {
-        // 1. select:check if over the maxImagesCount / 选择照片,检查是否超过了最大个数的限制
-        if (_tzImagePickerVc.selectedModels.count >= _tzImagePickerVc.maxImagesCount) {
-            [_tzImagePickerVc showAlertWithTitle:[NSString stringWithFormat:@"你最多只能选择%zd张照片",_tzImagePickerVc.maxImagesCount]];
-            return;
-        // 2. if not over the maxImagesCount / 如果没有超过最大个数限制
-        } else {
-            [_tzImagePickerVc.selectedModels addObject:model];
-            if (model.type == TZAssetModelMediaTypeVideo) {
-                [_tzImagePickerVc showAlertWithTitle:@"多选状态下选择视频，默认将视频当图片发送"];
-            }
-        }
-    } else {
-        NSArray *selectedModels = [NSArray arrayWithArray:self.tzImagePickerVc.selectedModels];
-        for (TZAssetModel *model_item in selectedModels) {
-            if ([model.asset isEqual:model_item.asset]) {
-                [self.tzImagePickerVc.selectedModels removeObject:model_item];
-            }
-        }
-    }
-    model.isSelected = !selectButton.isSelected;
-    [self refreshNaviBarAndBottomBarState];
-    if (model.isSelected) {
-        [UIView showOscillatoryAnimationWithLayer:selectButton.imageView.layer type:TZOscillatoryAnimationToBigger];
-    }
-    [UIView showOscillatoryAnimationWithLayer:_numberImageView.layer type:TZOscillatoryAnimationToSmaller];
-}
+//- (void)select:(UIButton *)selectButton {
+//    TZAssetModel *model = _photoArr[_currentIndex];
+//    if (!selectButton.isSelected) {
+//        // 1. select:check if over the maxImagesCount / 选择照片,检查是否超过了最大个数的限制
+//        if (_tzImagePickerVc.selectedModels.count >= _tzImagePickerVc.maxImagesCount) {
+//            [_tzImagePickerVc showAlertWithTitle:[NSString stringWithFormat:@"你最多只能选择%zd张照片",_tzImagePickerVc.maxImagesCount]];
+//            return;
+//        // 2. if not over the maxImagesCount / 如果没有超过最大个数限制
+//        } else {
+//            [_tzImagePickerVc.selectedModels addObject:model];
+//            if (model.type == TZAssetModelMediaTypeVideo) {
+//                [_tzImagePickerVc showAlertWithTitle:@"多选状态下选择视频，默认将视频当图片发送"];
+//            }
+//        }
+//    } else {
+//        NSArray *selectedModels = [NSArray arrayWithArray:self.tzImagePickerVc.selectedModels];
+//        for (TZAssetModel *model_item in selectedModels) {
+//            if ([model.asset isEqual:model_item.asset]) {
+//                [self.tzImagePickerVc.selectedModels removeObject:model_item];
+//            }
+//        }
+//    }
+//    model.isSelected = !selectButton.isSelected;
+//    [self refreshNaviBarAndBottomBarState];
+//    if (model.isSelected) {
+//        [UIView showOscillatoryAnimationWithLayer:selectButton.imageView.layer type:TZOscillatoryAnimationToBigger];
+//    }
+//    [UIView showOscillatoryAnimationWithLayer:_numberImageView.layer type:TZOscillatoryAnimationToSmaller];
+//}
 
 - (void)back {
     [self.navigationController popViewControllerAnimated:YES];
@@ -218,7 +219,7 @@
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView {
     CGPoint offSet = scrollView.contentOffset;
     _currentIndex = (offSet.x + (self.view.tz_width * 0.5)) / self.view.tz_width;
-    [self refreshNaviBarAndBottomBarState];
+//    [self refreshNaviBarAndBottomBarState];
 }
 
 #pragma mark - UICollectionViewDataSource && Delegate
@@ -228,6 +229,8 @@
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
+    [self refreshNaviBarAndBottomBarState:indexPath.row + 1];
+    
     TZPhotoPreviewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"TZPhotoPreviewCell" forIndexPath:indexPath];
     cell.model = _photoArr[indexPath.row];
     
@@ -240,6 +243,8 @@
             _weakIsHideNaviBar = !_weakIsHideNaviBar;
             weakNaviBar.hidden = _weakIsHideNaviBar;
             weakToolBar.hidden = _weakIsHideNaviBar;
+            
+            [self back];
         };
     }
     return cell;
@@ -247,10 +252,10 @@
 
 #pragma mark - Private Method
 
-- (void)refreshNaviBarAndBottomBarState {
+- (void)refreshNaviBarAndBottomBarState:(NSInteger) imagaNum {
     TZAssetModel *model = _photoArr[_currentIndex];
     _selectButton.selected = model.isSelected;
-    _numberLable.text = [NSString stringWithFormat:@"%zd",_tzImagePickerVc.selectedModels.count];
+    _numberLable.text = [NSString stringWithFormat:@"%d/%zd", imagaNum, _tzImagePickerVc.selectedModels.count];
     _numberImageView.hidden = (_tzImagePickerVc.selectedModels.count <= 0 || _isHideNaviBar);
     _numberLable.hidden = (_tzImagePickerVc.selectedModels.count <= 0 || _isHideNaviBar);
     
