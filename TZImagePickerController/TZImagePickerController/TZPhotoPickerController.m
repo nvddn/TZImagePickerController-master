@@ -112,13 +112,13 @@ static CGSize AssetGridThumbnailSize;
     layout.minimumLineSpacing = margin;
     CGFloat top = margin + 44;
     if (iOS7Later) top += 20;
-    _collectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(margin, top, self.view.tz_width - 2 * margin, self.view.tz_height - 50 - top) collectionViewLayout:layout];
+    _collectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(margin, top, self.view.tz_width - 2 * margin, self.view.tz_height - top) collectionViewLayout:layout];
     _collectionView.backgroundColor = [UIColor whiteColor];
     _collectionView.dataSource = self;
     _collectionView.delegate = self;
     _collectionView.alwaysBounceHorizontal = NO;
-    if (iOS7Later) _collectionView.contentInset = UIEdgeInsetsMake(0, 0, 0, 2);
-    _collectionView.scrollIndicatorInsets = UIEdgeInsetsMake(0, 0, 0, -2);
+    if (iOS7Later) _collectionView.contentInset = UIEdgeInsetsMake(0, 0, 50, 2);
+    _collectionView.scrollIndicatorInsets = UIEdgeInsetsMake(0, 0, 50, -2);
     if ([_model.name isEqualToString:@"相机胶卷"] || [_model.name isEqualToString:@"Camera Roll"] ) {
         _collectionView.contentSize = CGSizeMake(self.view.tz_width, ((_model.count + 4) / 4) * self.view.tz_width);
     } else {
@@ -146,9 +146,12 @@ static CGSize AssetGridThumbnailSize;
 }
 
 - (void)configBottomToolBar {
-    UIView *bottomToolBar = [[UIView alloc] initWithFrame:CGRectMake(0, self.view.tz_height - 48, self.view.tz_width, 48)];
-    CGFloat rgb = 253 / 255.0;
-    bottomToolBar.backgroundColor = [UIColor colorWithRed:rgb green:rgb blue:rgb alpha:1.0];
+//    UIView *bottomToolBar = [[UIView alloc] initWithFrame:CGRectMake(0, self.view.tz_height - 48, self.view.tz_width, 48)];
+//    CGFloat rgb = 253 / 255.0;
+//    bottomToolBar.backgroundColor = [UIColor colorWithRed:rgb green:rgb blue:rgb alpha:1.0];
+//    bottomToolBar.alpha = 0.0;
+    UIVisualEffectView *bottomToolBar = [[UIVisualEffectView alloc] initWithEffect:[UIBlurEffect effectWithStyle:UIBlurEffectStyleLight]];
+    bottomToolBar.frame = CGRectMake(0, self.view.tz_height - 48, self.view.tz_width, 48);
     
     _previewButton = [UIButton buttonWithType:UIButtonTypeCustom];
     _previewButton.frame = CGRectMake(10, 8, 45, 32);
@@ -218,14 +221,14 @@ static CGSize AssetGridThumbnailSize;
     divide.backgroundColor = [UIColor colorWithRed:rgb2 green:rgb2 blue:rgb2 alpha:1.0];
     divide.frame = CGRectMake(0, 0, self.view.tz_width, 1);
 
-    [bottomToolBar addSubview:divide];
+//    [bottomToolBar addSubview:divide];
     [bottomToolBar addSubview:_previewButton];
     [bottomToolBar addSubview:_okButton];
 //    [bottomToolBar addSubview:_numberImageView];
 //    [bottomToolBar addSubview:_numberLable];
     [self.view addSubview:bottomToolBar];
-    [self.view addSubview:_originalPhotoButton];
-    [_originalPhotoButton addSubview:_originalPhotoLable];
+//    [self.view addSubview:_originalPhotoButton];
+//    [_originalPhotoButton addSubview:_originalPhotoLable];
 }
 
 #pragma mark - Click Event
