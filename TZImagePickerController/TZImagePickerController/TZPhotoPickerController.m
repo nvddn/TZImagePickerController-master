@@ -106,19 +106,20 @@ static CGSize AssetGridThumbnailSize;
 - (void)configCollectionView {
     UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc] init];
     CGFloat margin = 4;
-    CGFloat itemWH = (self.view.tz_width - 2 * margin - 4) / 4 - margin;
+    CGFloat itemWH = (self.view.tz_width - 3 * margin) / 4;
     layout.itemSize = CGSizeMake(itemWH, itemWH);
     layout.minimumInteritemSpacing = margin;
     layout.minimumLineSpacing = margin;
-    CGFloat top = margin + 44;
+    CGFloat top = 44;
     if (iOS7Later) top += 20;
-    _collectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(margin, top, self.view.tz_width - 2 * margin, self.view.tz_height - top) collectionViewLayout:layout];
+    _collectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0, top, self.view.tz_width, self.view.tz_height - top) collectionViewLayout:layout];
     _collectionView.backgroundColor = [UIColor whiteColor];
+    _collectionView.showsVerticalScrollIndicator = NO;
     _collectionView.dataSource = self;
     _collectionView.delegate = self;
     _collectionView.alwaysBounceHorizontal = NO;
-    if (iOS7Later) _collectionView.contentInset = UIEdgeInsetsMake(0, 0, 50, 2);
-    _collectionView.scrollIndicatorInsets = UIEdgeInsetsMake(0, 0, 50, -2);
+    if (iOS7Later) _collectionView.contentInset = UIEdgeInsetsMake(margin, 0, 50, 0);
+    _collectionView.scrollIndicatorInsets = UIEdgeInsetsMake(2, 0, 50, -2);
     if ([_model.name isEqualToString:@"相机胶卷"] || [_model.name isEqualToString:@"Camera Roll"] ) {
         _collectionView.contentSize = CGSizeMake(self.view.tz_width, ((_model.count + 4) / 4) * self.view.tz_width);
     } else {
