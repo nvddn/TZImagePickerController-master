@@ -368,11 +368,12 @@ static CGSize AssetGridThumbnailSize;
             [self.navigationController pushViewController:videoPlayerVc animated:YES];
         }
     } else {
-        
-        TZPhotoPreviewController *photoPreviewVc = [[TZPhotoPreviewController alloc] init];
-        photoPreviewVc.photoArr = _photoArr;
-        photoPreviewVc.currentIndex = indexPath.row;
-        [self pushPhotoPrevireViewController:photoPreviewVc];
+        if(self.tzImagePickerVc.selectedModels.count == 0) {
+            TZPhotoPreviewController *photoPreviewVc = [[TZPhotoPreviewController alloc] init];
+            photoPreviewVc.photoArr = _photoArr;
+            photoPreviewVc.currentIndex = indexPath.row;
+            [self pushPhotoPrevireViewController:photoPreviewVc];
+        }
     }
 }
 
