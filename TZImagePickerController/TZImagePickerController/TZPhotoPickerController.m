@@ -112,7 +112,7 @@ static CGSize AssetGridThumbnailSize;
     layout.minimumLineSpacing = margin;
     CGFloat top = 44;
     if (iOS7Later) top += 20;
-    _collectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0, top, self.view.tz_width, self.view.tz_height - top) collectionViewLayout:layout];
+    _collectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0, 0, self.view.tz_width, self.view.tz_height - top) collectionViewLayout:layout];
     _collectionView.backgroundColor = [UIColor whiteColor];
     _collectionView.showsVerticalScrollIndicator = NO;
     _collectionView.dataSource = self;
@@ -152,7 +152,7 @@ static CGSize AssetGridThumbnailSize;
 //    bottomToolBar.backgroundColor = [UIColor colorWithRed:rgb green:rgb blue:rgb alpha:1.0];
 //    bottomToolBar.alpha = 0.0;
     UIVisualEffectView *bottomToolBar = [[UIVisualEffectView alloc] initWithEffect:[UIBlurEffect effectWithStyle:UIBlurEffectStyleLight]];
-    bottomToolBar.frame = CGRectMake(0, self.view.tz_height - 48, self.view.tz_width, 48);
+    bottomToolBar.frame = CGRectMake(0, self.view.tz_height - 64 - 48, self.view.tz_width, 48);
     
     _previewButton = [UIButton buttonWithType:UIButtonTypeCustom];
     _previewButton.frame = CGRectMake(10, 8, 45, 32);
@@ -368,6 +368,7 @@ static CGSize AssetGridThumbnailSize;
             [self.navigationController pushViewController:videoPlayerVc animated:YES];
         }
     } else {
+        
         TZPhotoPreviewController *photoPreviewVc = [[TZPhotoPreviewController alloc] init];
         photoPreviewVc.photoArr = _photoArr;
         photoPreviewVc.currentIndex = indexPath.row;
