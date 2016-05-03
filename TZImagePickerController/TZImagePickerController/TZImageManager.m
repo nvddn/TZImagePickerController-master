@@ -34,11 +34,11 @@
 
 /// Return YES if Authorized 返回YES如果得到了授权
 - (BOOL)authorizationStatusAuthorized {
-    if (iOS8Later) {
-        if ([PHPhotoLibrary authorizationStatus] == PHAuthorizationStatusAuthorized) return YES;
-    } else {
+//    if (iOS8Later) {
+//        if ([PHPhotoLibrary authorizationStatus] == PHAuthorizationStatusAuthorized) return YES;
+//    } else {
         if ([ALAssetsLibrary authorizationStatus] == ALAuthorizationStatusAuthorized) return YES;
-    }
+//    }
     return NO;
 }
 
@@ -47,23 +47,23 @@
 /// Get Album 获得相册/相册数组
 - (void)getCameraRollAlbum:(BOOL)allowPickingVideo allowPickingImage:(BOOL)allowPickingImage completion:(void (^)(TZAlbumModel *))completion{
     __block TZAlbumModel *model;
-    if (iOS8Later) {
-        PHFetchOptions *option = [[PHFetchOptions alloc] init];
-        if (!allowPickingVideo) option.predicate = [NSPredicate predicateWithFormat:@"mediaType == %ld", PHAssetMediaTypeImage];
-        if (!allowPickingImage) option.predicate = [NSPredicate predicateWithFormat:@"mediaType == %ld",
-                                                    PHAssetMediaTypeVideo];
-        option.sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:@"creationDate" ascending:YES]];
-        
-        PHFetchResult *smartAlbums = [PHAssetCollection fetchAssetCollectionsWithType:PHAssetCollectionTypeSmartAlbum subtype:PHAssetCollectionSubtypeSmartAlbumUserLibrary options:nil];
-        for (PHAssetCollection *collection in smartAlbums) {
-            if ([collection.localizedTitle isEqualToString:@"Camera Roll"] || [collection.localizedTitle isEqualToString:@"相机胶卷"]) {
-                PHFetchResult *fetchResult = [PHAsset fetchAssetsInAssetCollection:collection options:option];
-                model = [self modelWithResult:fetchResult name:collection.localizedTitle];
-                if (completion) completion(model);
-                break;
-            }
-        }
-    } else {
+//    if (iOS8Later) {
+//        PHFetchOptions *option = [[PHFetchOptions alloc] init];
+//        if (!allowPickingVideo) option.predicate = [NSPredicate predicateWithFormat:@"mediaType == %ld", PHAssetMediaTypeImage];
+//        if (!allowPickingImage) option.predicate = [NSPredicate predicateWithFormat:@"mediaType == %ld",
+//                                                    PHAssetMediaTypeVideo];
+//        option.sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:@"creationDate" ascending:YES]];
+//        
+//        PHFetchResult *smartAlbums = [PHAssetCollection fetchAssetCollectionsWithType:PHAssetCollectionTypeSmartAlbum subtype:PHAssetCollectionSubtypeSmartAlbumUserLibrary options:nil];
+//        for (PHAssetCollection *collection in smartAlbums) {
+//            if ([collection.localizedTitle isEqualToString:@"Camera Roll"] || [collection.localizedTitle isEqualToString:@"相机胶卷"]) {
+//                PHFetchResult *fetchResult = [PHAsset fetchAssetsInAssetCollection:collection options:option];
+//                model = [self modelWithResult:fetchResult name:collection.localizedTitle];
+//                if (completion) completion(model);
+//                break;
+//            }
+//        }
+//    } else {
         [self.assetLibrary enumerateGroupsWithTypes:ALAssetsGroupAll usingBlock:^(ALAssetsGroup *group, BOOL *stop) {
             
             if ([group numberOfAssets] < 1) return;
@@ -74,47 +74,47 @@
                 *stop = YES;
             }
         } failureBlock:nil];
-    }
+//    }
 }
 
 - (void)getAllAlbums:(BOOL)allowPickingVideo allowPickingImage:(BOOL)allowPickingImage completion:(void (^)(NSArray<TZAlbumModel *> *))completion{
     NSMutableArray *albumArr = [NSMutableArray array];
-    if (iOS8Later) {
-        PHFetchOptions *option = [[PHFetchOptions alloc] init];
-        if (!allowPickingVideo) option.predicate = [NSPredicate predicateWithFormat:@"mediaType == %ld", PHAssetMediaTypeImage];
-        if (!allowPickingImage) option.predicate = [NSPredicate predicateWithFormat:@"mediaType == %ld",
-                                                    PHAssetMediaTypeVideo];
-        option.sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:@"creationDate" ascending:YES]];
-        
-        PHAssetCollectionSubtype smartAlbumSubtype = PHAssetCollectionSubtypeSmartAlbumUserLibrary | PHAssetCollectionSubtypeSmartAlbumRecentlyAdded | PHAssetCollectionSubtypeSmartAlbumVideos;
-        // For iOS 9, We need to show ScreenShots Album && SelfPortraits Album
-        if (iOS9Later) {
-            smartAlbumSubtype = PHAssetCollectionSubtypeSmartAlbumUserLibrary | PHAssetCollectionSubtypeSmartAlbumRecentlyAdded | PHAssetCollectionSubtypeSmartAlbumScreenshots | PHAssetCollectionSubtypeSmartAlbumSelfPortraits | PHAssetCollectionSubtypeSmartAlbumVideos;
-        }
-        PHFetchResult *smartAlbums = [PHAssetCollection fetchAssetCollectionsWithType:PHAssetCollectionTypeSmartAlbum subtype:smartAlbumSubtype options:nil];
-        for (PHAssetCollection *collection in smartAlbums) {
-            PHFetchResult *fetchResult = [PHAsset fetchAssetsInAssetCollection:collection options:option];
-            if (fetchResult.count < 1) continue;
-            if ([collection.localizedTitle containsString:@"Deleted"] || [collection.localizedTitle isEqualToString:@"最近删除"]) continue;
-            if ([collection.localizedTitle isEqualToString:@"Camera Roll"] || [collection.localizedTitle isEqualToString:@"相机胶卷"]) {
-                [albumArr insertObject:[self modelWithResult:fetchResult name:collection.localizedTitle] atIndex:0];
-            } else {
-                [albumArr addObject:[self modelWithResult:fetchResult name:collection.localizedTitle]];
-            }
-        }
-        
-        PHFetchResult *albums = [PHAssetCollection fetchAssetCollectionsWithType:PHAssetCollectionTypeAlbum subtype:PHAssetCollectionSubtypeAlbumRegular | PHAssetCollectionSubtypeAlbumSyncedAlbum options:nil];
-        for (PHAssetCollection *collection in albums) {
-            PHFetchResult *fetchResult = [PHAsset fetchAssetsInAssetCollection:collection options:option];
-            if (fetchResult.count < 1) continue;
-            if ([collection.localizedTitle isEqualToString:@"My Photo Stream"] || [collection.localizedTitle isEqualToString:@"我的照片流"]) {
-                [albumArr insertObject:[self modelWithResult:fetchResult name:collection.localizedTitle] atIndex:1];
-            } else {
-                [albumArr addObject:[self modelWithResult:fetchResult name:collection.localizedTitle]];
-            }
-        }
-        if (completion && albumArr.count > 0) completion(albumArr);
-    } else {
+//    if (iOS8Later) {
+//        PHFetchOptions *option = [[PHFetchOptions alloc] init];
+//        if (!allowPickingVideo) option.predicate = [NSPredicate predicateWithFormat:@"mediaType == %ld", PHAssetMediaTypeImage];
+//        if (!allowPickingImage) option.predicate = [NSPredicate predicateWithFormat:@"mediaType == %ld",
+//                                                    PHAssetMediaTypeVideo];
+//        option.sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:@"creationDate" ascending:YES]];
+//        
+//        PHAssetCollectionSubtype smartAlbumSubtype = PHAssetCollectionSubtypeSmartAlbumUserLibrary | PHAssetCollectionSubtypeSmartAlbumRecentlyAdded | PHAssetCollectionSubtypeSmartAlbumVideos;
+//        // For iOS 9, We need to show ScreenShots Album && SelfPortraits Album
+//        if (iOS9Later) {
+//            smartAlbumSubtype = PHAssetCollectionSubtypeSmartAlbumUserLibrary | PHAssetCollectionSubtypeSmartAlbumRecentlyAdded | PHAssetCollectionSubtypeSmartAlbumScreenshots | PHAssetCollectionSubtypeSmartAlbumSelfPortraits | PHAssetCollectionSubtypeSmartAlbumVideos;
+//        }
+//        PHFetchResult *smartAlbums = [PHAssetCollection fetchAssetCollectionsWithType:PHAssetCollectionTypeSmartAlbum subtype:smartAlbumSubtype options:nil];
+//        for (PHAssetCollection *collection in smartAlbums) {
+//            PHFetchResult *fetchResult = [PHAsset fetchAssetsInAssetCollection:collection options:option];
+//            if (fetchResult.count < 1) continue;
+//            if ([collection.localizedTitle containsString:@"Deleted"] || [collection.localizedTitle isEqualToString:@"最近删除"]) continue;
+//            if ([collection.localizedTitle isEqualToString:@"Camera Roll"] || [collection.localizedTitle isEqualToString:@"相机胶卷"]) {
+//                [albumArr insertObject:[self modelWithResult:fetchResult name:collection.localizedTitle] atIndex:0];
+//            } else {
+//                [albumArr addObject:[self modelWithResult:fetchResult name:collection.localizedTitle]];
+//            }
+//        }
+//        
+//        PHFetchResult *albums = [PHAssetCollection fetchAssetCollectionsWithType:PHAssetCollectionTypeAlbum subtype:PHAssetCollectionSubtypeAlbumRegular | PHAssetCollectionSubtypeAlbumSyncedAlbum options:nil];
+//        for (PHAssetCollection *collection in albums) {
+//            PHFetchResult *fetchResult = [PHAsset fetchAssetsInAssetCollection:collection options:option];
+//            if (fetchResult.count < 1) continue;
+//            if ([collection.localizedTitle isEqualToString:@"My Photo Stream"] || [collection.localizedTitle isEqualToString:@"我的照片流"]) {
+//                [albumArr insertObject:[self modelWithResult:fetchResult name:collection.localizedTitle] atIndex:1];
+//            } else {
+//                [albumArr addObject:[self modelWithResult:fetchResult name:collection.localizedTitle]];
+//            }
+//        }
+//        if (completion && albumArr.count > 0) completion(albumArr);
+//    } else {
         [self.assetLibrary enumerateGroupsWithTypes:ALAssetsGroupAll usingBlock:^(ALAssetsGroup *group, BOOL *stop) {
             if (group == nil) {
                 if (completion && albumArr.count > 0) completion(albumArr);
@@ -129,7 +129,7 @@
                 [albumArr addObject:[self modelWithResult:group name:name]];
             }
         } failureBlock:nil];
-    }
+//    }
 }
 
 #pragma mark - Get Assets
@@ -354,15 +354,15 @@
 }
 
 - (void)getPostImageWithAlbumModel:(TZAlbumModel *)model completion:(void (^)(UIImage *))completion {
-    if (iOS8Later) {
-        [[TZImageManager manager] getPhotoWithAsset:[model.result lastObject] photoWidth:80 completion:^(UIImage *photo, NSDictionary *info, BOOL isDegraded) {
-            if (completion) completion(photo);
-        }];
-    } else {
+//    if (iOS8Later) {
+//        [[TZImageManager manager] getPhotoWithAsset:[model.result lastObject] photoWidth:80 completion:^(UIImage *photo, NSDictionary *info, BOOL isDegraded) {
+//            if (completion) completion(photo);
+//        }];
+//    } else {
         ALAssetsGroup *group = model.result;
         UIImage *postImage = [UIImage imageWithCGImage:group.posterImage];
         if (completion) completion(postImage);
-    }
+//    }
 }
 
 /// Get Original Photo / 获取原图
@@ -426,19 +426,19 @@
 }
 
 - (NSString *)getNewAlbumName:(NSString *)name {
-    if (iOS8Later) {
-        NSString *newName;
-        if ([name rangeOfString:@"Roll"].location != NSNotFound)         newName = @"相机胶卷";
-        else if ([name rangeOfString:@"Stream"].location != NSNotFound)  newName = @"我的照片流";
-        else if ([name rangeOfString:@"Added"].location != NSNotFound)   newName = @"最近添加";
-        else if ([name rangeOfString:@"Selfies"].location != NSNotFound) newName = @"自拍";
-        else if ([name rangeOfString:@"shots"].location != NSNotFound)   newName = @"截屏";
-        else if ([name rangeOfString:@"Videos"].location != NSNotFound)  newName = @"视频";
-        else newName = name;
-        return newName;
-    } else {
+//    if (iOS8Later) {
+//        NSString *newName;
+//        if ([name rangeOfString:@"Roll"].location != NSNotFound)         newName = @"相机胶卷";
+//        else if ([name rangeOfString:@"Stream"].location != NSNotFound)  newName = @"我的照片流";
+//        else if ([name rangeOfString:@"Added"].location != NSNotFound)   newName = @"最近添加";
+//        else if ([name rangeOfString:@"Selfies"].location != NSNotFound) newName = @"自拍";
+//        else if ([name rangeOfString:@"shots"].location != NSNotFound)   newName = @"截屏";
+//        else if ([name rangeOfString:@"Videos"].location != NSNotFound)  newName = @"视频";
+//        else newName = name;
+//        return newName;
+//    } else {
         return name;
-    }
+//    }
 }
 
 - (UIImage *)scaleImage:(UIImage *)image toSize:(CGSize)size {
